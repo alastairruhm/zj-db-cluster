@@ -18,34 +18,34 @@ var (
 var RootCmd = &cobra.Command{
 	Use:   "zj-db-cluster",
 	Short: "zijin database cluster command line tool",
-	Long: `A Fast and Flexible Static Site Generator built with
-                love by spf13 and friends in Go.
-                Complete documentation is available at http://hugo.spf13.com`,
+	Long:  ``,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if ClusterName == "" {
-			errExitOutput(cmd, errors.New("name flags is required to specify the cluster"))
+			errOutput(cmd, errors.New("name flags '-i' is required to specify the cluster"))
+
+			cmd.Help()
+			os.Exit(-1)
+
 		}
 		cfgFilePath, err := config.GetCfgFilePath(ClusterName)
 		if err != nil {
-			errExitOutput(cmd, err)
+			errOutput(cmd, err)
+			os.Exit(-1)
 		}
 		data, err := readConfigFile(cfgFilePath)
 		if err != nil {
-			errExitOutput(cmd, err)
+			errOutput(cmd, err)
+			os.Exit(-1)
 		}
 		Config, err = config.ParseConfigData(data)
 		if err != nil {
-			errExitOutput(cmd, err)
+			errOutput(cmd, err)
+			os.Exit(-1)
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		// Do Stuff Here
-	},
-}
 
-func errExitOutput(cmd *cobra.Command, msg interface{}) {
-	cmd.Printf(color.Sprintf(color.Red("Error: %s"), color.Red(msg)))
-	os.Exit(-1)
+	},
 }
 
 func errOutput(cmd *cobra.Command, msg interface{}) {

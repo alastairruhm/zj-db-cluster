@@ -3,6 +3,8 @@ package cmd
 import (
 	"strconv"
 
+	"os"
+
 	"github.com/alastairruhm/zj-db-cluster/config"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/spf13/cobra"
@@ -39,6 +41,7 @@ func check(cmd *cobra.Command, args []string) {
 			}
 		}
 	case "replica-consistency":
+
 	default:
 	}
 
@@ -64,7 +67,8 @@ func CheckNodeConn(cmd *cobra.Command, node interface{}) {
 		v, ok := node.(config.Vip)
 		cmd.Printf("check VIP %s connection: ", v.IP)
 		if !ok {
-			errExitOutput(cmd, "type assertion is illegal")
+			errOutput(cmd, "type assertion is illegal")
+			os.Exit(-1)
 		}
 
 		err := checkDBConnection(v.Dbusername, v.Dbpassword, v.IP, strconv.Itoa(v.Port))
@@ -77,7 +81,8 @@ func CheckNodeConn(cmd *cobra.Command, node interface{}) {
 		v, ok := node.(config.Atlas)
 		cmd.Printf("check Atlas %s connection: ", v.IP)
 		if !ok {
-			errExitOutput(cmd, "type assertion is illegal")
+			errOutput(cmd, "type assertion is illegal")
+			os.Exit(-1)
 		}
 		err := checkDBConnection(v.Dbusername, v.Dbpassword, v.IP, strconv.Itoa(v.Port))
 		if err != nil {
@@ -89,7 +94,8 @@ func CheckNodeConn(cmd *cobra.Command, node interface{}) {
 		v, ok := node.(config.Database)
 		cmd.Printf("check Database %s connection: ", v.IP)
 		if !ok {
-			errExitOutput(cmd, "type assertion is illegal")
+			errOutput(cmd, "type assertion is illegal")
+			os.Exit(-1)
 		}
 		err := checkDBConnection(v.Dbusername, v.Dbpassword, v.IP, strconv.Itoa(v.Port))
 		if err != nil {

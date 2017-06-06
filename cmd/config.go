@@ -59,7 +59,8 @@ var ConfigCmd = &cobra.Command{
     `,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if ClusterName == "" {
-			errExitOutput(cmd, errors.New("name flags is required to specify the cluster"))
+			errOutput(cmd, errors.New("name flags is required to specify the cluster"))
+			os.Exit(-1)
 		}
 	},
 }
@@ -79,19 +80,22 @@ var ConfigTestCmd = &cobra.Command{
 func initConfig(cmd *cobra.Command, args []string) {
 	appPath, err := config.GetAppPath()
 	if err != nil {
-		errExitOutput(cmd, err)
+		errOutput(cmd, err)
+		os.Exit(-1)
 	}
 
 	b, err := exist(appPath)
 
 	if err != nil {
-		errExitOutput(cmd, err)
+		errOutput(cmd, err)
+		os.Exit(-1)
 	}
 
 	if !b { // If path doesn't yet exist, create it
 		err = os.Mkdir(appPath, 0700)
 		if err != nil {
-			errExitOutput(cmd, errors.New("create working directory failed"))
+			errOutput(cmd, errors.New("create working directory failed"))
+			os.Exit(-1)
 		}
 	}
 
@@ -100,15 +104,18 @@ func initConfig(cmd *cobra.Command, args []string) {
 
 	b, err = exist(configFilePath)
 	if err != nil {
-		errExitOutput(cmd, err)
+		errOutput(cmd, err)
+		os.Exit(-1)
 	}
 	if b {
-		errExitOutput(cmd, errors.New("config file "+configFile+" already exist"))
+		errOutput(cmd, errors.New("config file "+configFile+" already exist"))
+		os.Exit(-1)
 	}
 	// 注意权限最好是 0600
 	err = writeConfigToFile(appPath, configFile, template)
 	if err != nil {
-		errExitOutput(cmd, err)
+		errOutput(cmd, err)
+		os.Exit(-1)
 	}
 }
 
