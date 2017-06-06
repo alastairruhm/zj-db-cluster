@@ -1,0 +1,10 @@
+language: go
+go:
+ - 1.8
+
+script:
+ - go build
+
+notifications:
+  webhooks: https://hook.bearychat.com/=bw9fx/incoming/15b0f514ac1bf277d880b5d994d59add
+
