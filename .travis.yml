@@ -6,5 +6,5 @@ script:
  - go build
 
 notifications:
-  webhooks: https://hook.bearychat.com/=bw9fx/incoming/15b0f514ac1bf277d880b5d994d59add
+  webhooks: https://hook.bearychat.com/=bw9fx/travis/2048a61e8b1bb60893ddd3c977379db3
 
