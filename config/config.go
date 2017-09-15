@@ -7,12 +7,14 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
+// Config ...
 type Config struct {
 	Vip   Vip
 	Atlas map[string]Atlas
 	DB    map[string]Database `toml:"database"`
 }
 
+// Database ...
 type Database struct {
 	IP         string
 	Port       int
@@ -20,6 +22,7 @@ type Database struct {
 	Dbpassword string
 }
 
+// Atlas ...
 type Atlas struct {
 	IP         string
 	Port       int
@@ -27,6 +30,7 @@ type Atlas struct {
 	Dbpassword string
 }
 
+// Vip ...
 type Vip struct {
 	IP         string
 	Port       int

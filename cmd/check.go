@@ -27,17 +27,17 @@ var CheckCmd = &cobra.Command{
 func check(cmd *cobra.Command, args []string) {
 	switch Item {
 	case "connection":
-		CheckNodeConn(cmd, Config.Vip)
+		go CheckNodeConn(cmd, Config.Vip)
 		for _, v := range Config.Atlas {
-			CheckNodeConn(cmd, v)
+			go CheckNodeConn(cmd, v)
 		}
 		for _, v := range Config.DB {
-			CheckNodeConn(cmd, v)
+			go CheckNodeConn(cmd, v)
 		}
 	case "replica-status":
 		for k, v := range Config.DB {
 			if k != "master" {
-				CheckReplicaStatus(cmd, &v)
+				go CheckReplicaStatus(cmd, &v)
 			}
 		}
 	case "replica-consistency":
