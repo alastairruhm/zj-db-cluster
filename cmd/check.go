@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/alastairruhm/zj-db-cluster/config"
+	// mysql driver
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/spf13/cobra"
 )
@@ -20,7 +21,25 @@ var CheckCmd = &cobra.Command{
 	Use:   "check",
 	Short: "check status of database cluster",
 	Long: `initialize configuration file.
-    `,
+	`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+
+		cfgFilePath, err := config.GetCfgFilePath(ClusterName)
+		if err != nil {
+			errOutput(cmd, err)
+			os.Exit(-1)
+		}
+		data, err := readConfigFile(cfgFilePath)
+		if err != nil {
+			errOutput(cmd, err)
+			os.Exit(-1)
+		}
+		Config, err = config.ParseConfigData(data)
+		if err != nil {
+			errOutput(cmd, err)
+			os.Exit(-1)
+		}
+	},
 	Run: check,
 }
 
@@ -47,6 +66,8 @@ func check(cmd *cobra.Command, args []string) {
 
 }
 
+// CheckReplicaStatus check mysql replication status
+// The process will check slave IO status and slave running status
 func CheckReplicaStatus(cmd *cobra.Command, db *config.Database) {
 	cmd.Printf("check slave %s replication status: ", db.IP)
 	status, err := CheckSlaveReplicaStatus(db.Dbusername, db.Dbpassword, db.IP, strconv.Itoa(db.Port))
