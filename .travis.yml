@@ -39,5 +39,4 @@ notifications:
   email:
     recipients:
     - alastairruhm@gmail.com
-  slack:
-    secure: alastairruhm:AN7iL7hiZhXMjin6eWowNSax
+  slack: alastairruhm:AN7iL7hiZhXMjin6eWowNSax
