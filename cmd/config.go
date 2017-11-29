@@ -54,14 +54,11 @@ dbpassword =
 // ConfigCmd sub-command of zcloud about server
 var ConfigCmd = &cobra.Command{
 	Use:   "config",
-	Short: "operation about configuration",
-	Long: `initialize configuration file.
-    `,
-	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		if ClusterName == "" {
-			errOutput(cmd, errors.New("name flags is required to specify the cluster"))
-			os.Exit(-1)
-		}
+	Short: "operation about configuration file",
+	Long: `configuration file operation.
+`,
+	Run: func(cmd *cobra.Command, args []string) {
+		cmd.Usage()
 	},
 }
 
@@ -69,14 +66,24 @@ var ConfigCmd = &cobra.Command{
 var ConfigInitCmd = &cobra.Command{
 	Use:   "init",
 	Short: "generate configuration file",
-	Run:   initConfig,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		if err := CheckClusterNameArgs(); err != nil {
+			errOutput(cmd, err)
+		}
+	},
+	Run: initConfig,
 }
 
 // ConfigTestCmd test target file
 var ConfigTestCmd = &cobra.Command{
 	Use:   "test",
 	Short: "test configuration file",
-	Run:   testConfig,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		if err := CheckClusterNameArgs(); err != nil {
+			errOutput(cmd, err)
+		}
+	},
+	Run: testConfig,
 }
 
 // ConfigListCmd will list the configuration files in pre-defined path

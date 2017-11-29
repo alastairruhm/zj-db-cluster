@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"testing"
 
 	"github.com/alastairruhm/zj-db-cluster/cmd"
@@ -47,6 +48,45 @@ func TestVersionCmd(t *testing.T) {
 
 			actual := buf.String()
 			expected := "zijin database cluster tool version " + cmd.VERSION + "\n"
+			So(actual, ShouldEqual, expected)
+		})
+	})
+}
+
+func TestConfigCmd(t *testing.T) {
+	rootCmd := cmd.RootCmd
+	Convey("TestConfigCmd", t, func() {
+		configCmd := cmd.ConfigCmd
+
+		Convey("config command will show usage of config: zj-db-cluster config", func() {
+			buf := new(bytes.Buffer)
+			rootCmd.SetArgs([]string{"config"})
+			rootCmd.SetOutput(buf)
+
+			err := rootCmd.Execute()
+
+			if err != nil {
+				t.Error(err)
+			}
+
+			actual := buf.String()
+			expected := configCmd.UsageString()
+			So(actual, ShouldEqual, expected)
+		})
+
+		Convey("config help command will show help of config: zj-db-cluster help config", func() {
+			buf := new(bytes.Buffer)
+			rootCmd.SetArgs([]string{"help", "config"})
+			rootCmd.SetOutput(buf)
+
+			err := rootCmd.Execute()
+
+			if err != nil {
+				t.Error(err)
+			}
+
+			actual := buf.String()
+			expected := fmt.Sprintf("%s\n%s", configCmd.Long, configCmd.UsageString())
 			So(actual, ShouldEqual, expected)
 		})
 	})
