@@ -146,4 +146,5 @@ func listConfig(cmd *cobra.Command, args []string) {
 func init() {
 	ConfigCmd.AddCommand(ConfigInitCmd)
 	ConfigCmd.AddCommand(ConfigTestCmd)
+	ConfigCmd.AddCommand(ConfigListCmd)
 }

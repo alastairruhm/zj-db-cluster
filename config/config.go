@@ -7,8 +7,10 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
-// Config ...
-type Config struct {
+var Config ClusterConfig
+
+// ClusterConfig ...
+type ClusterConfig struct {
 	Vip   Vip
 	Atlas map[string]Atlas
 	DB    map[string]Database `toml:"database"`
@@ -38,12 +40,12 @@ type Vip struct {
 	Dbpassword string
 }
 
-func ParseConfigData(data string) (*Config, error) {
-	var cfg Config
-	if _, err := toml.Decode(data, &cfg); err != nil {
-		return nil, err
+// ParseConfig return ClusterConfig instance
+func ParseConfig(data string) error {
+	if _, err := toml.Decode(data, &Config); err != nil {
+		return err
 	}
-	return &cfg, nil
+	return nil
 }
 
 func GetAppPath() (string, error) {

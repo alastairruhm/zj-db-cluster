@@ -60,18 +60,20 @@ func readConfigFile(path string) (string, error) {
 }
 
 // LoadConfig ...
-func LoadConfig() (*config.Config, error) {
-	cfgFilePath, err := config.GetCfgFilePath(ClusterName)
+func LoadConfig() (err error) {
+	var cfgFilePath string
+	cfgFilePath, err = config.GetCfgFilePath(ClusterName)
 	if err != nil {
-		return nil, err
+		return
 	}
-	data, err := readConfigFile(cfgFilePath)
+	var data string
+	data, err = readConfigFile(cfgFilePath)
 	if err != nil {
-		return nil, err
+		return
 	}
-	config, err := config.ParseConfigData(data)
+	Config, err = config.ParseConfigData(data)
 	if err != nil {
-		return nil, err
+		return
 	}
-	return config, nil
+	return
 }
