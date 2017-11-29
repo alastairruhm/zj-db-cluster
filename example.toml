@@ -1,0 +1,31 @@
+dbusername = 
+dbpassword = 
+
+[vip]
+ip = 
+port = 
+
+
+[atlas]
+  
+  [atlas.a]
+  ip = 
+  port = 
+
+  [atlas.b]
+  ip = 
+  port = 
+
+[database]
+  
+  [database.master]
+  ip = 
+  port = 
+
+  [database.slave_a]
+  ip = 
+  port = 
+
+  [database.slave_b]
+  ip = 
+  port = 
