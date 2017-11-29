@@ -65,16 +65,25 @@ var ConfigCmd = &cobra.Command{
 	},
 }
 
+// ConfigInitCmd will generate a configuration file
 var ConfigInitCmd = &cobra.Command{
 	Use:   "init",
-	Short: "initiate configuration file",
+	Short: "generate configuration file",
 	Run:   initConfig,
 }
 
+// ConfigTestCmd test target file
 var ConfigTestCmd = &cobra.Command{
 	Use:   "test",
 	Short: "test configuration file",
 	Run:   testConfig,
+}
+
+// ConfigListCmd will list the configuration files in pre-defined path
+var ConfigListCmd = &cobra.Command{
+	Use:   "list",
+	Short: "list configuration file",
+	Run:   listConfig,
 }
 
 func initConfig(cmd *cobra.Command, args []string) {
@@ -120,6 +129,10 @@ func initConfig(cmd *cobra.Command, args []string) {
 }
 
 func testConfig(cmd *cobra.Command, args []string) {
+	cmd.Printf("test OK\n")
+}
+
+func listConfig(cmd *cobra.Command, args []string) {
 	cmd.Printf("test OK\n")
 }
 
