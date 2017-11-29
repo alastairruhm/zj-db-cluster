@@ -5,12 +5,11 @@ import (
 	"io/ioutil"
 
 	"github.com/alastairruhm/zj-db-cluster/config"
-	color "github.com/logrusorgru/aurora"
 	"github.com/spf13/cobra"
 )
 
 // VERSION is app version
-const VERSION = "0.1.0"
+const VERSION = "0.2.0"
 
 var (
 	ClusterName string
@@ -29,11 +28,7 @@ var RootCmd = &cobra.Command{
 }
 
 func errOutput(cmd *cobra.Command, msg interface{}) {
-	cmd.Printf(color.Sprintf(color.Red("Error: %s\n"), color.Red(msg)))
-}
-
-func infoOutput(cmd *cobra.Command, msg interface{}) {
-	cmd.Printf(color.Sprintf(color.Blue(msg)))
+	cmd.Printf("Error: %s\n", msg)
 }
 
 // CheckClusterNameArgs ...

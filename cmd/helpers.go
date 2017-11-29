@@ -6,10 +6,11 @@ import (
 	"path/filepath"
 
 	"fmt"
-
+	// mysql driver
 	_ "github.com/go-sql-driver/mysql"
 )
 
+// ReplicaStatus ...
 type ReplicaStatus struct {
 	SlaveIORunning  string
 	SlaveSQLRunning string
@@ -48,6 +49,7 @@ func checkDBConnection(dbuser string, dbpasswd string, host string, port string)
 	return err
 }
 
+// CheckSlaveReplicaStatus ...
 func CheckSlaveReplicaStatus(dbuser string, dbpasswd string, host string, port string) (ReplicaStatus, error) {
 	var status ReplicaStatus
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/?timeout=5s", dbuser, dbpasswd, host, port)
@@ -64,7 +66,7 @@ func CheckSlaveReplicaStatus(dbuser string, dbpasswd string, host string, port s
 	cols, _ := rows.Columns()
 	buff := make([]interface{}, len(cols)) // temp slice
 	data := make([]string, len(cols))      // data storing slice
-	for i, _ := range buff {
+	for i := range buff {
 		buff[i] = &data[i]
 	}
 	for rows.Next() {
