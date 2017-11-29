@@ -23,21 +23,14 @@ var CheckCmd = &cobra.Command{
 	Long: `initialize configuration file.
 	`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-
-		cfgFilePath, err := config.GetCfgFilePath(ClusterName)
+		var err error
+		Config, err = LoadConfig()
 		if err != nil {
-			errOutput(cmd, err)
-			os.Exit(-1)
+			errOutputExit(cmd, err)
 		}
-		data, err := readConfigFile(cfgFilePath)
+		err = CheckClusterNameArgs()
 		if err != nil {
-			errOutput(cmd, err)
-			os.Exit(-1)
-		}
-		Config, err = config.ParseConfigData(data)
-		if err != nil {
-			errOutput(cmd, err)
-			os.Exit(-1)
+			errOutputExit(cmd, err)
 		}
 	},
 	Run: check,

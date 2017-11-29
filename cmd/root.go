@@ -3,6 +3,7 @@ package cmd
 import (
 	"errors"
 	"io/ioutil"
+	"os"
 
 	"github.com/alastairruhm/zj-db-cluster/config"
 	"github.com/spf13/cobra"
@@ -31,7 +32,12 @@ func errOutput(cmd *cobra.Command, msg interface{}) {
 	cmd.Printf("Error: %s\n", msg)
 }
 
-// CheckClusterNameArgs ...
+func errOutputExit(cmd *cobra.Command, msg interface{}) {
+	errOutput(cmd, msg)
+	os.Exit(-1)
+}
+
+// CheckClusterNameArgs will return error if global args ClusterName is ""
 func CheckClusterNameArgs() error {
 	if ClusterName == "" {
 		return errors.New("name flags '-n' is required to specify the cluster")
@@ -51,4 +57,21 @@ func readConfigFile(path string) (string, error) {
 		return "", err
 	}
 	return string(data), nil
+}
+
+// LoadConfig ...
+func LoadConfig() (*config.Config, error) {
+	cfgFilePath, err := config.GetCfgFilePath(ClusterName)
+	if err != nil {
+		return nil, err
+	}
+	data, err := readConfigFile(cfgFilePath)
+	if err != nil {
+		return nil, err
+	}
+	config, err := config.ParseConfigData(data)
+	if err != nil {
+		return nil, err
+	}
+	return config, nil
 }
