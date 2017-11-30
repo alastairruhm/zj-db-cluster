@@ -1,6 +1,8 @@
-hash: 0a4523f708db2225a6ca453af4b31ede60b53fc2681db92d632f473aab21401e
-updated: 2017-11-29T12:46:59.813108+08:00
+hash: 422c419db8b799468f3f884f122a247fbef498e162f32ffdabd1de522d080f99
+updated: 2017-11-30T14:36:07.344445+08:00
 imports:
+- name: github.com/bouk/monkey
+  version: b96e337f6e5b36906584cd0cf9803bbab09284f7
 - name: github.com/BurntSushi/toml
   version: a368813c5e648fee92e5f6c30e3944ff9d5e8895
 - name: github.com/go-sql-driver/mysql
