@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/alastairruhm/zj-db-cluster/config"
+	"github.com/alastairruhm/zj-db-cluster/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -100,7 +101,7 @@ func initConfig(cmd *cobra.Command, args []string) {
 		os.Exit(-1)
 	}
 
-	b, err := exist(appPath)
+	b, err := utils.Exist(appPath)
 
 	if err != nil {
 		errOutput(cmd, err)
@@ -118,7 +119,7 @@ func initConfig(cmd *cobra.Command, args []string) {
 	configFile := ClusterName + ".toml"
 	configFilePath := filepath.Join(appPath, configFile)
 
-	b, err = exist(configFilePath)
+	b, err = utils.Exist(configFilePath)
 	if err != nil {
 		errOutput(cmd, err)
 		os.Exit(-1)
@@ -128,7 +129,7 @@ func initConfig(cmd *cobra.Command, args []string) {
 		os.Exit(-1)
 	}
 	// 注意权限最好是 0600
-	err = writeConfigToFile(appPath, configFile, template)
+	err = utils.WriteFile(appPath, configFile, template)
 	if err != nil {
 		errOutput(cmd, err)
 		os.Exit(-1)

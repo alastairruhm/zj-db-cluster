@@ -2,8 +2,6 @@ package cmd
 
 import (
 	"database/sql"
-	"os"
-	"path/filepath"
 
 	"fmt"
 	// mysql driver
@@ -14,28 +12,6 @@ import (
 type ReplicaStatus struct {
 	SlaveIORunning  string
 	SlaveSQLRunning string
-}
-
-// Check if a file or directory exists.
-func exist(_path string) (bool, error) {
-	_, err := os.Stat(_path)
-	if err == nil {
-		return true, nil
-	}
-	if os.IsNotExist(err) {
-		return false, nil
-	}
-	return false, err
-}
-
-func writeConfigToFile(_path string, file string, text string) error {
-	f, err := os.Create(filepath.Join(_path, file))
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-	_, err = f.WriteString(text)
-	return err
 }
 
 func checkDBConnection(dbuser string, dbpasswd string, host string, port string) error {

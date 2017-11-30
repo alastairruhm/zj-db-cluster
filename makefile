@@ -16,4 +16,7 @@ bench:
 clean:
 	rm -rf bin
 
+integration-test:
+	go test -tags=integration -v
+
 ### Makefile ends here

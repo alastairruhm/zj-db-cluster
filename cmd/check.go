@@ -23,7 +23,7 @@ var CheckCmd = &cobra.Command{
 	Long: `initialize configuration file.
 	`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		if Config, err := LoadConfig(); err != nil {
+		if err := LoadConfig(); err != nil {
 			errOutput(cmd, err)
 		}
 	},

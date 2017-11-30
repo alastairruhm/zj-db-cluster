@@ -14,7 +14,7 @@ const VERSION = "0.2.0"
 
 var (
 	ClusterName string
-	Config      *config.Config
+	Config      *config.ClusterConfig
 )
 
 // RootCmd ...
@@ -71,7 +71,7 @@ func LoadConfig() (err error) {
 	if err != nil {
 		return
 	}
-	Config, err = config.ParseConfigData(data)
+	err = config.ParseConfig(data)
 	if err != nil {
 		return
 	}
