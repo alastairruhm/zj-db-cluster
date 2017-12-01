@@ -1,5 +1,5 @@
-hash: 422c419db8b799468f3f884f122a247fbef498e162f32ffdabd1de522d080f99
-updated: 2017-11-30T14:36:07.344445+08:00
+hash: 3c52349fa1fc3b07449a456690f1d36eb4479a5c7f39e6cf749305ac107add40
+updated: 2017-12-01T17:51:59.583475+08:00
 imports:
 - name: github.com/bouk/monkey
   version: b96e337f6e5b36906584cd0cf9803bbab09284f7
@@ -7,6 +7,10 @@ imports:
   version: a368813c5e648fee92e5f6c30e3944ff9d5e8895
 - name: github.com/go-sql-driver/mysql
   version: cd4cb909ce1a31435164be29bf3682031f61539a
+- name: github.com/golang/mock
+  version: 747e9e6390e12b0d987c261bdc89a51e76b9f5fc
+  subpackages:
+  - gomock
 - name: github.com/inconshreveable/mousetrap
   version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
 - name: github.com/logrusorgru/aurora
@@ -15,6 +19,10 @@ imports:
   version: 1be1d2841c773c01bee8289f55f7463b6e2c2539
 - name: github.com/spf13/pflag
   version: 4c012f6dcd9546820e378d0bdda4d8fc772cdfea
+- name: golang.org/x/net
+  version: a8b9294777976932365dabb6640cf1468d95c70f
+  subpackages:
+  - context
 - name: google.golang.org/appengine
   version: 9d8544a6b2c7df9cff240fcf92d7b2f59bc13416
   subpackages:

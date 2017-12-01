@@ -5,6 +5,9 @@ import:
 - package: github.com/logrusorgru/aurora
 - package: github.com/spf13/cobra
 - package: github.com/bouk/monkey
+- package: github.com/golang/mock
+  subpackages:
+  - gomock
 testImport:
 - package: github.com/smartystreets/goconvey
   subpackages:
