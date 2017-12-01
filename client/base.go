@@ -25,8 +25,8 @@ type Cluster struct {
 	DBNodes    map[string]config.Database
 }
 
-// NewCluster create a new instance with given config
-func NewCluster(c config.ClusterConfig) *Cluster {
+// NewChecker create a new instance with given config
+var NewChecker = func(c config.ClusterConfig) Checker {
 	cluster := &Cluster{
 		Username:   c.Username,
 		Password:   c.Password,
