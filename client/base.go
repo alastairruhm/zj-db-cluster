@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"strconv"
+	"sync"
 
 	"github.com/alastairruhm/zj-db-cluster/config"
 )
@@ -42,30 +43,53 @@ func (c *Cluster) CheckConnection() string {
 	chVip := make(chan string)
 	chAtlas := make(chan string)
 	chDB := make(chan string)
+
+	var checkGroup sync.WaitGroup
 	go func(vip config.Vip) {
+		checkGroup.Add(1)
 		result := fmt.Sprintf("check VIP %s connection: ", vip.IP)
 		result = result + CheckDBConnection(c.Username, c.Password, vip.IP, strconv.Itoa(vip.Port)) + "\n"
+		// fmt.Println("check vip ", vip.IP)
 		chVip <- result
+		close(chVip)
+		checkGroup.Done()
 	}(c.VIPNode)
-	close(chVip)
 
-	for _, atlas := range c.AtlasNodes {
-		go func(a config.Atlas) {
-			result := fmt.Sprintf("check Atlas %s connection: ", a.IP)
-			result = result + CheckDBConnection(c.Username, c.Password, a.IP, strconv.Itoa(a.Port)) + "\n"
-			chAtlas <- result
-		}(atlas)
-	}
-	close(chAtlas)
+	go func() {
+		checkGroup.Add(1)
+		var atlasGroup sync.WaitGroup
+		for _, atlas := range c.AtlasNodes {
+			atlasGroup.Add(1)
+			go func(a config.Atlas) {
+				result := fmt.Sprintf("check Atlas %s connection: ", a.IP)
+				result = result + CheckDBConnection(c.Username, c.Password, a.IP, strconv.Itoa(a.Port)) + "\n"
+				// fmt.Println("check atlas ", a.IP)
+				chAtlas <- result
+				atlasGroup.Done()
+			}(atlas)
+		}
+		atlasGroup.Wait()
+		close(chAtlas)
+		checkGroup.Done()
+	}()
 
-	for _, database := range c.DBNodes {
-		go func(d config.Database) {
-			result := fmt.Sprintf("check Database %s connection: ", d.IP)
-			result = result + CheckDBConnection(c.Username, c.Password, d.IP, strconv.Itoa(d.Port)) + "\n"
-			chDB <- result
-		}(database)
-	}
-	close(chDB)
+	go func() {
+		checkGroup.Add(1)
+		var dbGroup sync.WaitGroup
+		for _, database := range c.DBNodes {
+			dbGroup.Add(1)
+			go func(d config.Database) {
+				result := fmt.Sprintf("check Database %s connection: ", d.IP)
+				result = result + CheckDBConnection(c.Username, c.Password, d.IP, strconv.Itoa(d.Port)) + "\n"
+				// fmt.Println("check db ", d.IP)
+				chDB <- result
+				dbGroup.Done()
+			}(database)
+		}
+		dbGroup.Wait()
+		close(chDB)
+		checkGroup.Done()
+	}()
 
 	resVip := ""
 	resAtlas := ""
@@ -76,22 +100,32 @@ func (c *Cluster) CheckConnection() string {
 		case r, ok := <-chVip:
 			if !ok {
 				chVip = nil
+			} else {
+				resVip = r
+				// fmt.Println("chvip")
 			}
-			resVip = r
-
 		case r, ok := <-chAtlas:
 			if !ok {
 				chAtlas = nil
+			} else {
+				resAtlas += r
+				// fmt.Println("atlas")
 			}
-			resAtlas += r
 
 		case r, ok := <-chDB:
 			if !ok {
 				chDB = nil
+			} else {
+				resDB = resDB + r
+				// fmt.Println("chdb")
 			}
-			resDB = resDB + r
+		}
+		// fmt.Println(chVip, chAtlas, chDB)
+		if chVip == nil && chAtlas == nil && chDB == nil {
+			break
 		}
 	}
+	checkGroup.Wait()
 
 	return resVip + resAtlas + resDB
 }
