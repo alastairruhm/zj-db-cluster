@@ -11,6 +11,9 @@ var Config ClusterConfig
 
 // ClusterConfig ...
 type ClusterConfig struct {
+	Username string `toml:"dbusername"`
+	Password string `toml:"dbpassword"`
+
 	Vip   Vip
 	Atlas map[string]Atlas
 	DB    map[string]Database `toml:"database"`
@@ -18,26 +21,20 @@ type ClusterConfig struct {
 
 // Database ...
 type Database struct {
-	IP         string
-	Port       int
-	Dbusername string
-	Dbpassword string
+	IP   string
+	Port int
 }
 
 // Atlas ...
 type Atlas struct {
-	IP         string
-	Port       int
-	Dbusername string
-	Dbpassword string
+	IP   string
+	Port int
 }
 
 // Vip ...
 type Vip struct {
-	IP         string
-	Port       int
-	Dbusername string
-	Dbpassword string
+	IP   string
+	Port int
 }
 
 // ParseConfig return ClusterConfig instance
@@ -48,6 +45,8 @@ func ParseConfig(data string) error {
 	return nil
 }
 
+// GetAppPath return the working path for the app
+// as root user, the result is `/root/.zj-db-cluster`
 func GetAppPath() (string, error) {
 	osUsr, err := user.Current()
 	if err != nil {
@@ -57,6 +56,7 @@ func GetAppPath() (string, error) {
 	return appPath, nil
 }
 
+// GetCfgFilePath ...
 func GetCfgFilePath(clusterName string) (string, error) {
 	cfgFile := clusterName + ".toml"
 	appPath, err := GetAppPath()

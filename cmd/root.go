@@ -51,7 +51,8 @@ func init() {
 	RootCmd.AddCommand(CheckCmd)
 }
 
-func readConfigFile(path string) (string, error) {
+// ReadConfigFile ...
+func ReadConfigFile(path string) (string, error) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return "", err
@@ -67,7 +68,7 @@ func LoadConfig() (err error) {
 		return
 	}
 	var data string
-	data, err = readConfigFile(cfgFilePath)
+	data, err = ReadConfigFile(cfgFilePath)
 	if err != nil {
 		return
 	}
