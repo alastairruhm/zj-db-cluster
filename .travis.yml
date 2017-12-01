@@ -14,11 +14,11 @@ os:
 before_install:
 - go get github.com/golang/lint/golint
 - go get github.com/FiloSottile/vendorcheck
-- go get github.com/alecthomas/gometalinter
+# - go get github.com/alecthomas/gometalinter
 # - go get github.com/gordonklaus/ineffassign
 # - go get golang.org/x/tools/cmd/goimports
 # - go get github.com/tsenart/deadcode
-- gometalinter --install
+# - gometalinter --install
 - go get github.com/Masterminds/glide
 - go get github.com/mattn/goveralls
 - go get golang.org/x/tools/cmd/cover
@@ -28,7 +28,7 @@ install:
 - glide install -v
 
 script:
-- gometalinter --config=gometalinter_config.json ./...
+# - gometalinter --config=gometalinter_config.json ./...
 - vendorcheck ./...
 - goveralls -v -race -service=travis-ci
 

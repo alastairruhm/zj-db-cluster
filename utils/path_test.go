@@ -41,7 +41,7 @@ func TestExist(t *testing.T) {
 			So(err, ShouldBeNil)
 		})
 
-		Convey("os.Stat not error", func() {
+		Convey("os.Stat ok", func() {
 			stat := Patch(os.Stat, func(_ string) (os.FileInfo, error) {
 				return nil, nil
 			})
