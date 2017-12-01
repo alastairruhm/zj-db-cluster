@@ -8,17 +8,21 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	// Item hold the flag for item that will be checked
-	Item string
-)
-
 // CheckCmd do check the status of db cluster
 var CheckCmd = &cobra.Command{
 	Use:   "check",
 	Short: "check status of database cluster",
 	Long: `initialize configuration file.
 	`,
+	Run: func(cmd *cobra.Command, args []string) {
+		cmd.Usage()
+	},
+}
+
+// CheckConnectionCmd ...
+var CheckConnectionCmd = &cobra.Command{
+	Use:   "connection",
+	Short: "check connection status of all nodes",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		if err := CheckClusterNameArgs(); err != nil {
 			errOutput(cmd, err)
@@ -28,31 +32,37 @@ var CheckCmd = &cobra.Command{
 			errOutputExit(cmd, err)
 		}
 	},
-	Run: check,
+	Run: checkConnection,
 }
 
-func check(cmd *cobra.Command, args []string) {
-	switch Item {
-	case "connection":
-		c := client.NewCluster(config.Config)
-		result := c.CheckConnection()
-		cmd.Printf(result)
-
-	case "replica-status":
-		// for k, v := range Config.DB {
-		// 	if k != "master" {
-		// 		go CheckReplicaStatus(cmd, &v)
-		// 	}
-		// }
-	case "replica-consistency":
-
-	default:
-		if err := cmd.Usage(); err != nil {
-			errOutputExit(cmd, err.Error())
-		}
-	}
-
+func checkConnection(cmd *cobra.Command, args []string) {
+	c := client.NewCluster(config.Config)
+	result := c.CheckConnection()
+	cmd.Printf(result)
 }
+
+// func check(cmd *cobra.Command, args []string) {
+// 	switch Item {
+// 	case "connection":
+// 		c := client.NewCluster(config.Config)
+// 		result := c.CheckConnection()
+// 		cmd.Printf(result)
+
+// 	case "replica-status":
+// 		// for k, v := range Config.DB {
+// 		// 	if k != "master" {
+// 		// 		go CheckReplicaStatus(cmd, &v)
+// 		// 	}
+// 		// }
+// 	case "replica-consistency":
+
+// 	default:
+// 		if err := cmd.Usage(); err != nil {
+// 			errOutputExit(cmd, err.Error())
+// 		}
+// 	}
+
+// }
 
 // CheckReplicaStatus check mysql replication status
 // The process will check slave IO status and slave running status
@@ -116,5 +126,5 @@ func check(cmd *cobra.Command, args []string) {
 // }
 
 func init() {
-	RootCmd.PersistentFlags().StringVarP(&Item, "item", "i", "", "check item: connection, replica-status, replica-consistency")
+	CheckCmd.AddCommand(CheckConnectionCmd)
 }
