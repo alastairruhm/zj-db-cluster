@@ -26,16 +26,26 @@ type Cluster struct {
 }
 
 // NewChecker create a new instance with given config
-var NewChecker = func(c config.ClusterConfig) Checker {
-	cluster := &Cluster{
+// var NewChecker = func(c config.ClusterConfig) Checker {
+// 	cluster := &Cluster{
+// 		Username:   c.Username,
+// 		Password:   c.Password,
+// 		VIPNode:    c.Vip,
+// 		AtlasNodes: c.Atlas,
+// 		DBNodes:    c.DB,
+// 	}
+// 	return cluster
+// }
+
+// NewChecker create a new instance with given config
+func NewChecker(c config.ClusterConfig) Checker {
+	return &Cluster{
 		Username:   c.Username,
 		Password:   c.Password,
 		VIPNode:    c.Vip,
 		AtlasNodes: c.Atlas,
 		DBNodes:    c.DB,
 	}
-
-	return cluster
 }
 
 // CheckConnection check all datasource connection

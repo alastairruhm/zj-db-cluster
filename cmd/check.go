@@ -1,9 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-	"reflect"
-
 	"github.com/alastairruhm/zj-db-cluster/client"
 	"github.com/alastairruhm/zj-db-cluster/config"
 	// mysql driver
@@ -41,8 +38,6 @@ var CheckConnectionCmd = &cobra.Command{
 // CheckConnection ...
 func CheckConnection(cmd *cobra.Command, args []string) {
 	c := client.NewChecker(config.Config)
-	fmt.Printf("%v\n", c)
-	fmt.Printf("%s\n", reflect.TypeOf(c))
 	result := c.CheckConnection()
 	cmd.Printf(result)
 }

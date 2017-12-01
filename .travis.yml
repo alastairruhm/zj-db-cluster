@@ -30,7 +30,9 @@ install:
 script:
 # - gometalinter --config=gometalinter_config.json ./...
 - vendorcheck ./...
-- goveralls -v -race -service=travis-ci
+# -gcflags=-l resovle the problem of Monkey Patch test: http://www.jianshu.com/p/2f675d5e334e
+# client.NewChecker is a inline function
+- goveralls -flags=-gcflags=-l -v -race -service=travis-ci
 
 # after_success:
 # - test -n "$TRAVIS_TAG" && curl -sL https://git.io/goreleaser | bash
