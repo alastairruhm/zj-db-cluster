@@ -20,12 +20,14 @@ before_install:
 # - go get github.com/tsenart/deadcode
 # - gometalinter --install
 - go get github.com/Masterminds/glide
+- go get github.com/golang/dep
 - go get github.com/mattn/goveralls
 - go get golang.org/x/tools/cmd/cover
 
 
 install:
-- glide install -v
+# - glide install -v
+- dep ensure
 
 script:
 # - gometalinter --config=gometalinter_config.json ./...
