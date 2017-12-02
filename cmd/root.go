@@ -19,9 +19,10 @@ var (
 
 // RootCmd ...
 var RootCmd = &cobra.Command{
-	Use:   "zj-db-cluster",
-	Short: "zijin database cluster command line tool",
-	Long:  ``,
+	Use:     "zj-db-cluster",
+	Short:   "zijin database cluster command line tool",
+	Long:    ``,
+	Version: VERSION,
 	Run: func(cmd *cobra.Command, args []string) {
 		// default command output usage string
 		cmd.Usage()

@@ -1,4 +1,7 @@
 ### Makefile --- 
+	
+# https://stackoverflow.com/questions/3931741/why-does-make-think-the-target-is-up-to-date
+.PHONY: all test clean
 
 
 all: build
@@ -12,12 +15,10 @@ lint:
 	vendorcheck ./...
 
 test:
-	go test -v ./...
+	go test -v -gcflags=-l ./...
 
 clean:
 	rm -rf bin
 
-integration-test:
-	go test -tags=integration -v
 
 ### Makefile ends here

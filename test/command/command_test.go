@@ -53,6 +53,28 @@ func TestVersionCmd(t *testing.T) {
 	})
 }
 
+func TestVersionFlags(t *testing.T) {
+	RootCmd := cmd.RootCmd
+	Convey("TestVersionCmd", t, func() {
+		// some global val
+		Convey("version command should work properly", func() {
+			buf := new(bytes.Buffer)
+			RootCmd.SetArgs([]string{"--version"})
+			RootCmd.SetOutput(buf)
+
+			err := RootCmd.Execute()
+
+			if err != nil {
+				t.Error(err)
+			}
+
+			actual := buf.String()
+			expected := "zj-db-cluster version " + cmd.VERSION + "\n"
+			So(actual, ShouldEqual, expected)
+		})
+	})
+}
+
 func TestConfigCmd(t *testing.T) {
 	rootCmd := cmd.RootCmd
 	Convey("TestConfigCmd", t, func() {
