@@ -34,8 +34,8 @@ script:
 # client.NewChecker is a inline function
 - goveralls -flags=-gcflags=-l -v -race -service=travis-ci
 
-# after_success:
-# - test -n "$TRAVIS_TAG" && curl -sL https://git.io/goreleaser | bash
+after_success:
+- test -n "$TRAVIS_TAG" && curl -sL https://git.io/goreleaser | bash
 
 notifications:
   email:

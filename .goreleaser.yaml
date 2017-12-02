@@ -1,0 +1,63 @@
+# goreleaser.yml
+# Build customization
+build:
+  main: main.go
+  binary: zj-db-cluster
+  goos:
+    - darwin
+    - linux
+  goarch:
+    - amd64
+  ldflags: -s -w
+release:
+  github:
+    owner: alastairruhm
+    name: zj-db-cluster
+# Archive customization
+archive:
+  format: tar.gz
+  replacements:
+    amd64: 64-bit
+    darwin: macOS
+  files:
+    - README.md
+    - LICENSE
+
+brew:
+  github:
+    owner: alastairruhm
+    name: homebrew-tap
+
+  # Git author used to commit to the repository.
+  # Defaults are shown.
+  commit_author:
+    name: alastairruhm
+    email: alastairruhm@gmail.com
+
+  # Folder inside the repository to put the formula.
+  # Default is the root folder.
+  folder: Formula
+
+  # Caveats for the user of your binary.
+  # Default is empty.
+  caveats: ""
+
+  # Your app's homepage.
+  # Default is empty.
+  homepage: "https://github.com/alastairruhm/zj-db-cluster"
+
+  # Your app's description.
+  # Default is empty.
+  description: "zijin database cluster command line tool"
+
+  # Packages your package depends on.
+  # dependencies:
+  #   - git
+  #   - zsh
+
+  # Packages that conflict with your package.
+  # conflicts:
+  #   - svn
+  #   - bash
+  install: |
+    bin.install "zj-db-cluster"
