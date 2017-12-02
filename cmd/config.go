@@ -11,45 +11,36 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var template = `[vip]
+var template = `dbusername = 
+dbpassword = 
+[vip]
 ip = 
 port = 
-dbusername = 
-dbpassword = 
+
 
 [atlas]
   
   [atlas.a]
   ip = 
   port = 
-  dbusername = 
-  dbpassword = 
 
   [atlas.b]
   ip = 
   port = 
-  dbusername = 
-  dbpassword = 
 
 [database]
   
   [database.master]
   ip = 
   port = 
-  dbusername = 
-  dbpassword =
 
   [database.slave_a]
   ip = 
   port = 
-  dbusername = 
-  dbpassword =
 
   [database.slave_b]
   ip = 
   port = 
-  dbusername = 
-  dbpassword = 
 `
 
 // ConfigCmd sub-command of zcloud about server
