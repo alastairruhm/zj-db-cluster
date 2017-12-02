@@ -20,7 +20,7 @@ before_install:
 # - go get github.com/tsenart/deadcode
 # - gometalinter --install
 - go get github.com/Masterminds/glide
-- go get github.com/golang/dep
+- go get -u github.com/golang/dep/cmd/dep
 - go get github.com/mattn/goveralls
 - go get golang.org/x/tools/cmd/cover
 
