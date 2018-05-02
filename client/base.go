@@ -57,7 +57,7 @@ func (c *Cluster) CheckConnection() string {
 	var checkGroup sync.WaitGroup
 	go func(vip config.Vip) {
 		checkGroup.Add(1)
-		result := fmt.Sprintf("check VIP %s connection: ", vip.IP)
+		result := fmt.Sprintf("check VIP      %s connection: ", vip.IP)
 		result = result + CheckDBConnection(c.Username, c.Password, vip.IP, strconv.Itoa(vip.Port)) + "\n"
 		// fmt.Println("check vip ", vip.IP)
 		chVip <- result
@@ -71,7 +71,7 @@ func (c *Cluster) CheckConnection() string {
 		for _, atlas := range c.AtlasNodes {
 			atlasGroup.Add(1)
 			go func(a config.Atlas) {
-				result := fmt.Sprintf("check Atlas %s connection: ", a.IP)
+				result := fmt.Sprintf("check Atlas    %s connection: ", a.IP)
 				result = result + CheckDBConnection(c.Username, c.Password, a.IP, strconv.Itoa(a.Port)) + "\n"
 				// fmt.Println("check atlas ", a.IP)
 				chAtlas <- result
@@ -155,11 +155,11 @@ func CheckDBConnection(user string, pass string, host string, port string) strin
 	db, err := NewDBConn(user, pass, host, port)
 	defer db.Close()
 	if err != nil {
-		return err.Error()
+		return fmt.Sprintf("%s - %s", "ERROR", err.Error())
 	}
 	err = db.Ping()
 	if err != nil {
-		return err.Error()
+		return fmt.Sprintf("%s - %s", "ERROR", err.Error())
 	}
 	return "OK"
 }
